@@ -71,6 +71,8 @@ At the same time, only 2 non-borrowers were incorrectly targeted, helping minimi
 
 The model demonstrated strong generalization performance with no significant evidence of overfitting, making it suitable for production deployment.
 
+---
+
 ## Business Alternative Model
 
 ### Random Forest + SMOTE + Undersampling
