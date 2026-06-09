@@ -1,277 +1,334 @@
-# Bank Loan Propensity Model Deployment using MLOps
-Production-grade MLOps project that predicts high-propensity loan customers using Random Forest and deploys the model with Flask, Docker, Kubernetes, AWS EKS, Terraform, and CI/CD pipelines.
+# End-to-End Bank Loan Propensity Prediction & MLOps Deployment on AWS
 
+## Project Summary
 
-## Keyword
-Machine Learning, MLOps, Flask, Docker, AWS EKS, Kubernetes, Amazon ECR, CodeBuild, CodePipeline, Terraform, CI/CD, Random Forest, SMOTE, Classification, Banking Analytics, Propensity Modeling, Model Deployment
+This project develops and deploys a production-grade machine learning system that identifies bank customers most likely to accept loan offers.
 
+The solution helps retail banks improve marketing efficiency by targeting high-propensity customers instead of conducting broad, low-conversion campaigns.
 
-## Executive Summary
-# End-to-End Bank Loan Propensity Prediction using Machine Learning and AWS MLOps
+The project covers the complete machine learning lifecycle, from data preparation and predictive modeling to cloud deployment on AWS using Kubernetes and CI/CD automation.
 
-This project develops, evaluates, and deploys a machine learning solution to identify customers most likely to accept loan offers from a retail bank.
-
-Starting from raw customer data, the project performs exploratory data analysis, statistical testing, feature engineering, class imbalance handling, model development, hyperparameter tuning, and model evaluation. Multiple machine learning algorithms were compared, including Logistic Regression, Naive Bayes, Support Vector Machine, Decision Tree, Hist Gradient Boosting, and Random Forest.
-
-The final Random Forest model trained on SMOTE-balanced data achieved a ROC-AUC of 0.999, Recall of 97.9%, Precision of 97.9%, F1-Score of 97.9%, and Accuracy of 99.6%.
-
-To demonstrate production readiness, the selected model is packaged using Flask, containerized with Docker, deployed on AWS Elastic Kubernetes Service (EKS), and automated through CI/CD pipelines using AWS CodeBuild, CodePipeline, and Terraform.
-
-
-## Deployment Architecture
-
-The trained model is served through a Flask API, containerized using Docker, pushed to Amazon ECR, and deployed to Amazon EKS using Kubernetes manifests. CI/CD is handled using AWS CodeBuild and CodePipeline, while Terraform supports infrastructure provisioning.
-
+---
 
 ## Business Problem
 
-Bank XYZ's customer portfolio is primarily composed of liability customers (depositors) rather than asset customers (borrowers).
+A retail bank wants to increase loan conversion rates while reducing marketing costs.
 
-Previous marketing campaigns generated only single-digit conversion rates, creating a need for a more targeted and data-driven customer acquisition strategy.
+Historically, marketing campaigns targeted a large customer base and achieved only single-digit conversion rates.
 
-The objective of this project is to identify customers with a high propensity to accept loan offers, enabling focused digital marketing campaigns that improve conversion rates while maintaining existing marketing budgets.
+The objective is to predict which customers are most likely to accept a loan offer so that marketing resources can be focused on high-probability prospects.
 
+### Expected Business Benefits
+
+* Improve loan conversion rates
+* Increase marketing efficiency
+* Reduce customer acquisition costs
+* Improve marketing ROI
+* Expand the borrower portfolio
+
+---
+
+## Solution Architecture
+
+```text
+Customer Data
+      ↓
+Data Validation
+      ↓
+Feature Engineering Pipeline
+      ↓
+Hist Gradient Boosting Model
+      ↓
+Probability Scoring
+      ↓
+Borrower Likelihood Ranking
+      ↓
+Marketing Campaign System
+```
+
+---
 
 ## Dataset Overview
 
-The dataset consists of 5,000 customer records merged from two source files containing demographic, spending, and banking relationship information.
+| Metric          | Value      |
+| --------------- | ---------- |
+| Initial Records | 5,000      |
+| Final Records   | 4,980      |
+| Features        | 14         |
+| Target Variable | LoanOnCard |
 
 ### Target Variable
 
-- LoanOnCard
+| Value | Description                   |
+| ----- | ----------------------------- |
+| 0     | Customer does not have a loan |
+| 1     | Customer has a loan           |
 
-### Features
+---
 
-- Age
-- CustomerSince
-- HighestSpend
-- HiddenScore
-- MonthlyAverageSpend
-- Level
-- Mortgage
-- Security
-- FixedDepositAccount
-- InternetBanking
-- CreditCard
+## Machine Learning Workflow
 
-
-## Project Workflow
-
+```text
 Raw Data
-→
+    ↓
+Data Understanding
+    ↓
 Data Cleaning
-→
+    ↓
 EDA & Statistical Analysis
-→
+    ↓
 Feature Engineering
-→
+    ↓
 Class Imbalance Handling
-→
+    ↓
 Model Development
-→
+    ↓
 Hyperparameter Tuning
-→
-Model Comparison
-→
-Final Model Selection
-→
-Model Serialization
-→
-Flask API
-→
-Docker Containerization
-→
-AWS Deployment (EKS)
-→
-CI/CD Automation
+    ↓
+Model Selection
+    ↓
+Model Deployment
+```
 
+---
 
-## Exploratory Data Analysis
+## Key Exploratory Findings
 
-### Key Findings
+### Strong Predictors
 
-- Target variable was highly imbalanced:
-  - No Loan: 90.4%
-  - Loan: 9.6%
+* HighestSpend
+* MonthlyAverageSpend
+* FixedDepositAccount
+* Mortgage
+* Level
 
-- HighestSpend, MonthlyAverageSpend, and Mortgage exhibited right-skewed distributions.
+### Multicollinearity
 
-- Spending-related variables demonstrated the strongest relationship with loan adoption.
+Severe multicollinearity detected between:
 
-- Age and CustomerSince showed strong multicollinearity.
+* Age
+* CustomerSince
 
+Model-specific experiments were conducted to determine the optimal feature selection strategy.
 
-## Statistical Analysis
+### Class Imbalance
 
-The following statistical techniques were applied:
+| Class   | Percentage |
+| ------- | ---------- |
+| No Loan | 90.36%     |
+| Loan    | 9.64%      |
 
-### Numerical Variables
+The project evaluated:
 
-- Mann-Whitney U Test
+* Weighted Models
+* SMOTE
+* SMOTE + Undersampling
 
-### Categorical Variables
+---
 
-- Chi-Square Test of Independence
+## Models Evaluated
 
-### Correlation Analysis
+### Classification Algorithms
 
-- Pearson Correlation Matrix
+* Logistic Regression
+* Weighted Logistic Regression
+* Naive Bayes
+* Support Vector Machine (SVM)
+* Decision Tree
+* Random Forest
+* Hist Gradient Boosting
+* AdaBoost
 
-### Multicollinearity Assessment
+### Additional Experiments
 
-- Variance Inflation Factor (VIF)
+* Log Feature Transformation
+* Feature Selection
+* SMOTE
+* Hybrid Resampling
+* Hyperparameter Optimization
 
+A total of 20+ model variants were evaluated.
 
-  ### Significant Variables
+---
 
-- HighestSpend
-- MonthlyAverageSpend
-- Mortgage
-- HiddenScore
-- Level
-- FixedDepositAccount
+## Final Model Comparison
 
+| Model                             | ROC-AUC | Precision | Recall | F1 Score |
+| --------------------------------- | ------- | --------- | ------ | -------- |
+| Hist Gradient Boosting (Tuned)    | 99.93%  | 97.87%    | 95.83% | 96.84%   |
+| Random Forest                     | 99.91%  | 98.90%    | 93.75% | 96.26%   |
+| Random Forest + Hybrid Resampling | 99.90%  | 92.23%    | 98.96% | 95.48%   |
 
-  ## Feature Engineering
+---
 
-### Data Cleaning
+## Production Model
 
-- Removed ID and ZipCode
-- Corrected invalid values
-- Checked missing values and duplicates
+### Hist Gradient Boosting (Tuned)
 
-### Transformations
+Selected because it achieved:
 
-Log transformation applied to:
+* Highest F1 Score
+* Highest ROC-AUC
+* Excellent Precision
+* Excellent Recall
+* Strong Generalization Performance
+* Minimal Overfitting
 
-- HighestSpend
-- MonthlyAverageSpend
-- Mortgage
+### Final Performance
 
-### Class Imbalance Handling
+| Metric    | Value  |
+| --------- | ------ |
+| ROC-AUC   | 99.93% |
+| Precision | 97.87% |
+| Recall    | 95.83% |
+| F1 Score  | 96.84% |
+| Accuracy  | 99.40% |
 
-- Weighted Models
-- SMOTE
+---
 
+## Feature Importance
 
-  ## Machine Learning Models Evaluated
+### Top Predictive Features
 
-- Logistic Regression
-- Weighted Logistic Regression
-- Naive Bayes
-- Support Vector Machine (Tuned)
-- Decision Tree (Tuned)
-- Hist Gradient Boosting
-- Random Forest + SMOTE
+| Rank | Feature             |
+| ---- | ------------------- |
+| 1    | HighestSpend        |
+| 2    | Level               |
+| 3    | HiddenScore         |
+| 4    | MonthlyAverageSpend |
+| 5    | FixedDepositAccount |
 
-
-  ## Model Performance Comparison
-| Model No. | Model | ROC-AUC | Recall | Precision | F1-Score | Accuracy |
-|------------|--------|---------:|---------:|---------:|---------:|---------:|
-| 1 | Logistic Regression - Log Features | 0.972 | 0.625 | 0.857 | 0.723 | 0.954 |
-| 2 | Weighted Logistic Regression | 0.971 | 0.917 | 0.442 | 0.597 | 0.881 |
-| 3 | Naive Bayes (60:40 Prior) | 0.939 | 0.823 | 0.462 | 0.592 | 0.891 |
-| 4 | SVM Tuned | 0.994 | 0.958 | 0.807 | 0.876 | 0.974 |
-| 5 | Decision Tree Tuned | 0.955 | 0.917 | 0.936 | 0.926 | 0.986 |
-| 6 | Hist Gradient Boosting | 0.999 | 0.948 | 0.989 | 0.968 | 0.994 |
-| 7 | Random Forest + SMOTE | 0.999 | 0.979 | 0.979 | 0.979 | 0.996 |
-
-
-## Final Model Selection
-
-### Random Forest + SMOTE
-
-The Random Forest model trained on SMOTE-balanced data achieved the strongest overall performance.
-
-| Metric | Score |
-|----------|---------:|
-| ROC-AUC | 0.999 |
-| Recall | 97.9% |
-| Precision | 97.9% |
-| F1-Score | 97.9% |
-| Accuracy | 99.6% |
-
-
-## Why this model?
-
-The selected model correctly identified 97.9% of actual borrowers while maintaining a 97.9% precision rate.
-
-This balance minimizes missed opportunities and unnecessary marketing expenditure, making the model highly suitable for focused digital marketing campaigns.
-
+---
 
 ## Business Impact
 
-The solution enables Bank XYZ to:
+The solution enables the bank to:
 
-- Increase loan conversion rates through targeted campaigns.
-- Reduce marketing costs by focusing on high-probability customers.
-- Improve marketing ROI.
-- Support data-driven customer acquisition strategies.
-- Expand the borrower base efficiently.
+* Prioritize high-probability borrowers
+* Reduce marketing spend on low-conversion prospects
+* Increase loan adoption rates
+* Improve campaign targeting
+* Support data-driven lending strategies
 
+---
 
-  ## MLOps Architecture
+## MLOps Architecture
 
+```text
 GitHub
-→
+   ↓
 AWS CodePipeline
-→
+   ↓
 AWS CodeBuild
-→
+   ↓
 Docker Image Build
-→
+   ↓
 Amazon ECR
-→
+   ↓
 Amazon EKS
-→
+   ↓
 Flask API
-→
-Loan Propensity Predictions
+   ↓
+Loan Predictions
+```
 
+---
 
-## Technologies Used
+## Deployment Architecture
+
+```text
+Customer Data
+       ↓
+Feature Engineering Pipeline
+       ↓
+Hist Gradient Boosting Model
+       ↓
+Prediction API (Flask)
+       ↓
+Docker Container
+       ↓
+Amazon EKS
+       ↓
+Marketing Dashboard
+```
+
+---
+
+## Technology Stack
 
 ### Data Science
 
-- Python
-- Pandas
-- NumPy
-- Scikit-Learn
-- Imbalanced-Learn
-- Matplotlib
-- Seaborn
+* Python
+* Pandas
+* NumPy
+* Scikit-Learn
+* SciPy
+* Imbalanced-Learn
+* Matplotlib
+* Seaborn
 
 ### MLOps
 
-- Flask
-- Docker
-- Kubernetes
-- AWS EKS
-- Amazon ECR
-- AWS CodeBuild
-- AWS CodePipeline
-- Terraform
+* Flask
+* Docker
+* Kubernetes
+* Amazon EKS
+* Amazon ECR
+* AWS CodeBuild
+* AWS CodePipeline
+* Terraform
 
 ### Version Control
 
-- Git
-- GitHub
+* Git
+* GitHub
 
+---
 
-  ## Skills Demonstrated
+## Skills Demonstrated
 
-- Exploratory Data Analysis
-- Statistical Testing
-- Feature Engineering
-- Machine Learning
-- Hyperparameter Tuning
-- Ensemble Learning
-- Class Imbalance Handling (SMOTE)
-- Model Evaluation
-- Flask API Development
-- Docker Containerization
-- Kubernetes
-- AWS Deployment
-- CI/CD Pipelines
-- Infrastructure as Code (Terraform)
-- MLOps
+### Machine Learning
+
+* Classification Modeling
+* Feature Engineering
+* Statistical Testing
+* Class Imbalance Handling
+* Hyperparameter Optimization
+* Ensemble Learning
+* Model Evaluation
+
+### MLOps
+
+* Flask API Development
+* Docker Containerization
+* Kubernetes Orchestration
+* CI/CD Pipelines
+* Infrastructure as Code
+* AWS Cloud Deployment
+
+---
+
+## Repository Structure
+
+```text
+bank-loan-propensity-mlops/
+│
+├── data/
+├── notebooks/
+├── src/
+├── flask_app/
+├── docker/
+├── kubernetes/
+├── terraform/
+├── screenshots/
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## Conclusion
+
+This project demonstrates a complete production-grade machine learning workflow, from business problem definition and statistical analysis to AWS-based MLOps deployment.
+
+The final Hist Gradient Boosting model achieved a ROC-AUC of 99.93% and an F1 Score of 96.84%, enabling highly targeted loan marketing campaigns while maintaining excellent precision and recall.
