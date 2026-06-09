@@ -71,6 +71,15 @@ At the same time, only 2 non-borrowers were incorrectly targeted, helping minimi
 
 The model demonstrated strong generalization performance with no significant evidence of overfitting, making it suitable for production deployment.
 
+## Business Alternative Model
+
+### Random Forest + SMOTE + Undersampling
+
+* Highest Recall (98.96%)
+* Lowest False Negatives (1)
+
+**When to use:** If the business objective is to capture every possible borrower and management is willing to accept additional marketing costs, this model would be preferred over the final production model.
+
 ---
 
 ## Machine Learning Architecture
