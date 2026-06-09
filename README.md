@@ -1,68 +1,123 @@
-# End-to-End Bank Loan Propensity Prediction & MLOps Deployment on AWS
+# End-to-End Bank Loan Propensity Prediction & AWS MLOps Deployment
 
-## Project Summary
+Production-grade machine learning and MLOps project that predicts high-propensity loan customers and deploys a scalable prediction service on AWS using Docker, Kubernetes, Terraform, and CI/CD pipelines.
 
-This project develops and deploys a production-grade machine learning system that identifies bank customers most likely to accept loan offers.
+**Skills:** Python • Machine Learning • MLOps • AWS • Amazon EKS • Docker • Kubernetes • Terraform • CI/CD • Flask • Scikit-Learn • Banking Analytics
 
-The solution helps retail banks improve marketing efficiency by targeting high-propensity customers instead of conducting broad, low-conversion campaigns.
-
-The project covers the complete machine learning lifecycle, from data preparation and predictive modeling to cloud deployment on AWS using Kubernetes and CI/CD automation.
+**Keywords:** Machine Learning, MLOps, AWS, Amazon EKS, Kubernetes, Docker, Terraform, Flask, CI/CD, Classification Modeling, Predictive Analytics, Banking Analytics, Loan Propensity Modeling, Model Deployment
 
 ---
 
-## Business Problem
+## Executive Summary
 
-A retail bank wants to increase loan conversion rates while reducing marketing costs.
+Developed and deployed a production-grade machine learning system that predicts customers most likely to accept loan offers, enabling highly targeted digital marketing campaigns for a retail bank.
 
-Historically, marketing campaigns targeted a large customer base and achieved only single-digit conversion rates.
+The solution covers the complete machine learning lifecycle, from data understanding and statistical analysis to cloud-native deployment on AWS using Kubernetes, Docker, Terraform, and CI/CD pipelines.
 
-The objective is to predict which customers are most likely to accept a loan offer so that marketing resources can be focused on high-probability prospects.
+After evaluating 20+ model variations, a tuned Hist Gradient Boosting model was selected as the final production model.
 
-### Expected Business Benefits
+---
 
-* Improve loan conversion rates
-* Increase marketing efficiency
+## Project Highlights
+
+* Built and benchmarked 20+ machine learning model variants to identify high-propensity loan customers
+* Applied statistical testing, feature engineering, hyperparameter optimization, and class imbalance handling
+* Achieved 99.93% ROC-AUC and 96.84% F1 Score using a tuned Hist Gradient Boosting model
+* Correctly identified **92 of 96 actual borrowers (95.83% Recall)** while maintaining **97.87% Precision**
+* Missed only **4 potential borrowers** and generated only **2 unnecessary marketing targets**
+* Deployed the solution as a Flask API on Amazon EKS using Docker, Kubernetes, Terraform, and AWS CI/CD services
+
+---
+
+## Business Impact
+
+### Business Objective
+
+Increase loan conversion rates while reducing marketing costs by identifying customers with the highest probability of accepting loan offers.
+
+### Expected Benefits
+
+* Increase loan adoption rates
+* Improve marketing efficiency
 * Reduce customer acquisition costs
-* Improve marketing ROI
-* Expand the borrower portfolio
+* Improve return on marketing investment (ROMI)
+* Enable data-driven customer targeting
 
 ---
 
-## Solution Architecture
+## Final Production Model
+
+### Hist Gradient Boosting (Tuned)
+
+After evaluating more than 20 model variations, Hist Gradient Boosting was selected as the final production model.
+
+### Why This Model?
+
+| Metric          |  Score |
+| --------------- | -----: |
+| ROC-AUC         | 99.93% |
+| Precision       | 97.87% |
+| Recall          | 95.83% |
+| F1 Score        | 96.84% |
+| Accuracy        | 99.40% |
+| False Positives |      2 |
+| False Negatives |      4 |
+
+### Business Interpretation
+
+Out of 96 actual borrowers in the test dataset, the model correctly identified 92 while missing only 4 potential borrowers.
+
+At the same time, only 2 non-borrowers were incorrectly targeted, helping minimize unnecessary marketing expenditure.
+
+The model demonstrated strong generalization performance with no significant evidence of overfitting, making it suitable for production deployment.
+
+---
+
+## Machine Learning Architecture
+
+> Insert Architecture Diagram Here
 
 ```text
 Customer Data
       ↓
 Data Validation
       ↓
-Feature Engineering Pipeline
+Feature Engineering
       ↓
 Hist Gradient Boosting Model
       ↓
 Probability Scoring
       ↓
-Borrower Likelihood Ranking
+Prediction API (Flask)
+      ↓
+Docker Container
+      ↓
+Amazon EKS
       ↓
 Marketing Campaign System
 ```
 
 ---
 
-## Dataset Overview
+## AWS MLOps Architecture
 
-| Metric          | Value      |
-| --------------- | ---------- |
-| Initial Records | 5,000      |
-| Final Records   | 4,980      |
-| Features        | 14         |
-| Target Variable | LoanOnCard |
+```text
+GitHub
+   ↓
+AWS CodePipeline
+   ↓
+AWS CodeBuild
+   ↓
+Docker Image Build
+   ↓
+Amazon ECR
+   ↓
+Amazon EKS
+   ↓
+Flask Prediction API
+```
 
-### Target Variable
-
-| Value | Description                   |
-| ----- | ----------------------------- |
-| 0     | Customer does not have a loan |
-| 1     | Customer has a loan           |
+Infrastructure provisioning is automated using Terraform, while deployment is managed through AWS CodePipeline and CodeBuild.
 
 ---
 
@@ -70,59 +125,88 @@ Marketing Campaign System
 
 ```text
 Raw Data
-    ↓
-Data Understanding
-    ↓
+      ↓
 Data Cleaning
-    ↓
+      ↓
 EDA & Statistical Analysis
-    ↓
+      ↓
 Feature Engineering
-    ↓
+      ↓
 Class Imbalance Handling
-    ↓
+      ↓
 Model Development
-    ↓
-Hyperparameter Tuning
-    ↓
+      ↓
+Hyperparameter Optimization
+      ↓
 Model Selection
-    ↓
+      ↓
 Model Deployment
 ```
 
 ---
 
-## Key Exploratory Findings
+## Project Screenshots
 
-### Strong Predictors
+### Final Model Comparison
 
-* HighestSpend
-* MonthlyAverageSpend
-* FixedDepositAccount
-* Mortgage
-* Level
+![Model Comparison](screenshots/model_comparison.png)
 
-### Multicollinearity
+### Feature Importance
 
-Severe multicollinearity detected between:
+![Feature Importance](screenshots/feature_importance.png)
 
-* Age
-* CustomerSince
+### Flask Prediction API
 
-Model-specific experiments were conducted to determine the optimal feature selection strategy.
+![Flask API](screenshots/flask_api.png)
 
-### Class Imbalance
+### Docker Container
 
-| Class   | Percentage |
-| ------- | ---------- |
-| No Loan | 90.36%     |
-| Loan    | 9.64%      |
+![Docker](screenshots/docker_container.png)
 
-The project evaluated:
+### Kubernetes Deployment
 
-* Weighted Models
-* SMOTE
-* SMOTE + Undersampling
+![Kubernetes](screenshots/kubernetes_pods.png)
+
+### AWS EKS Deployment
+
+![EKS](screenshots/eks_deployment.png)
+
+### CI/CD Pipeline
+
+![CodePipeline](screenshots/codepipeline.png)
+
+---
+
+## Dataset Overview
+
+| Metric          |      Value |
+| --------------- | ---------: |
+| Initial Records |      5,000 |
+| Final Records   |      4,980 |
+| Features        |         14 |
+| Target Variable | LoanOnCard |
+
+---
+
+## Key Business Insights
+
+Feature importance analysis identified the primary drivers of loan adoption.
+
+| Rank | Feature             |
+| ---: | ------------------- |
+|    1 | HighestSpend        |
+|    2 | Level               |
+|    3 | HiddenScore         |
+|    4 | MonthlyAverageSpend |
+|    5 | FixedDepositAccount |
+
+Customers are significantly more likely to adopt loan products when they:
+
+* Make larger individual transactions
+* Maintain higher monthly spending levels
+* Belong to higher-value customer segments
+* Possess stronger internal customer scores
+* Hold fixed deposit accounts
 
 ---
 
@@ -141,116 +225,26 @@ The project evaluated:
 
 ### Additional Experiments
 
+* Multicollinearity Analysis
 * Log Feature Transformation
 * Feature Selection
 * SMOTE
 * Hybrid Resampling
-* Hyperparameter Optimization
+* Hyperparameter Tuning
 
-A total of 20+ model variants were evaluated.
+More than 20 model variants were evaluated.
 
 ---
 
 ## Final Model Comparison
 
-| Model                             | ROC-AUC | Precision | Recall | F1 Score |
-| --------------------------------- | ------- | --------- | ------ | -------- |
-| Hist Gradient Boosting (Tuned)    | 99.93%  | 97.87%    | 95.83% | 96.84%   |
-| Random Forest                     | 99.91%  | 98.90%    | 93.75% | 96.26%   |
-| Random Forest + Hybrid Resampling | 99.90%  | 92.23%    | 98.96% | 95.48%   |
+| Rank | Model | ROC-AUC | Precision | Recall | F1-Score | False Positives | False Negatives |
+|------:|--------|---------:|----------:|-------:|---------:|----------------:|----------------:|
+| 1 | Hist Gradient Boosting (Tuned) | 99.93% | 97.87% | 95.83% | 96.84% | 2 | 4 |
+| 2 | Random Forest (Baseline) | 99.91% | 98.90% | 93.75% | 96.26% | 1 | 6 |
+| 3 | Random Forest + SMOTE + Undersampling | 99.90% | 92.23% | 98.96% | 95.48% | 8 | 1 |
 
----
-
-## Production Model
-
-### Hist Gradient Boosting (Tuned)
-
-Selected because it achieved:
-
-* Highest F1 Score
-* Highest ROC-AUC
-* Excellent Precision
-* Excellent Recall
-* Strong Generalization Performance
-* Minimal Overfitting
-
-### Final Performance
-
-| Metric    | Value  |
-| --------- | ------ |
-| ROC-AUC   | 99.93% |
-| Precision | 97.87% |
-| Recall    | 95.83% |
-| F1 Score  | 96.84% |
-| Accuracy  | 99.40% |
-
----
-
-## Feature Importance
-
-### Top Predictive Features
-
-| Rank | Feature             |
-| ---- | ------------------- |
-| 1    | HighestSpend        |
-| 2    | Level               |
-| 3    | HiddenScore         |
-| 4    | MonthlyAverageSpend |
-| 5    | FixedDepositAccount |
-
----
-
-## Business Impact
-
-The solution enables the bank to:
-
-* Prioritize high-probability borrowers
-* Reduce marketing spend on low-conversion prospects
-* Increase loan adoption rates
-* Improve campaign targeting
-* Support data-driven lending strategies
-
----
-
-## MLOps Architecture
-
-```text
-GitHub
-   ↓
-AWS CodePipeline
-   ↓
-AWS CodeBuild
-   ↓
-Docker Image Build
-   ↓
-Amazon ECR
-   ↓
-Amazon EKS
-   ↓
-Flask API
-   ↓
-Loan Predictions
-```
-
----
-
-## Deployment Architecture
-
-```text
-Customer Data
-       ↓
-Feature Engineering Pipeline
-       ↓
-Hist Gradient Boosting Model
-       ↓
-Prediction API (Flask)
-       ↓
-Docker Container
-       ↓
-Amazon EKS
-       ↓
-Marketing Dashboard
-```
+**Alternative Business Model:** Random Forest + SMOTE + Undersampling achieved the highest Recall (98.96%) and missed only one borrower. It may be preferred when maximizing borrower identification is more important than minimizing marketing costs.
 
 ---
 
@@ -262,40 +256,40 @@ Marketing Dashboard
 * Pandas
 * NumPy
 * Scikit-Learn
-* SciPy
 * Imbalanced-Learn
+* SciPy
+
+### Visualization
+
 * Matplotlib
 * Seaborn
 
-### MLOps
+### MLOps & Cloud
 
 * Flask
 * Docker
 * Kubernetes
 * Amazon EKS
 * Amazon ECR
-* AWS CodeBuild
 * AWS CodePipeline
+* AWS CodeBuild
 * Terraform
-
-### Version Control
-
-* Git
-* GitHub
 
 ---
 
 ## Skills Demonstrated
 
-### Machine Learning
+### Data Science
 
-* Classification Modeling
-* Feature Engineering
+* Data Cleaning
+* Exploratory Data Analysis
 * Statistical Testing
+* Feature Engineering
+* Classification Modeling
 * Class Imbalance Handling
 * Hyperparameter Optimization
-* Ensemble Learning
 * Model Evaluation
+* Feature Importance Analysis
 
 ### MLOps
 
@@ -303,7 +297,7 @@ Marketing Dashboard
 * Docker Containerization
 * Kubernetes Orchestration
 * CI/CD Pipelines
-* Infrastructure as Code
+* Infrastructure as Code (Terraform)
 * AWS Cloud Deployment
 
 ---
@@ -327,8 +321,19 @@ bank-loan-propensity-mlops/
 
 ---
 
+## Future Enhancements
+
+* Automated model retraining pipelines
+* Model monitoring and drift detection
+* GitOps deployment with ArgoCD
+* Prometheus and Grafana monitoring
+* A/B testing for marketing optimization
+* Scalable microservices architecture
+
+---
+
 ## Conclusion
 
-This project demonstrates a complete production-grade machine learning workflow, from business problem definition and statistical analysis to AWS-based MLOps deployment.
+This project demonstrates the complete lifecycle of a production-grade machine learning solution, from business problem understanding and statistical analysis to cloud-native deployment and MLOps automation on AWS.
 
-The final Hist Gradient Boosting model achieved a ROC-AUC of 99.93% and an F1 Score of 96.84%, enabling highly targeted loan marketing campaigns while maintaining excellent precision and recall.
+The final Hist Gradient Boosting model achieved 99.93% ROC-AUC and 96.84% F1 Score, enabling highly targeted loan marketing campaigns while maintaining strong precision, recall, and operational scalability.
