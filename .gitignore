@@ -1,62 +1,44 @@
 # Python
-
 __pycache__/
 *.py[cod]
 *$py.class
 
-
 # Jupyter Notebook
-
-.ipynb_checkpoints
-
+.ipynb_checkpoints/
+*.nbconvert.ipynb
 
 # Virtual Environments
-
 venv/
 env/
 ENV/
 .venv/
 
-
 # Environment Variables
-
 .env
 .env.*
 
-
 # IDEs
-
 .vscode/
 .idea/
 
-
 # Operating System Files
-
 .DS_Store
 Thumbs.db
 
-
 # Logs
-
 *.log
 
-
-# Pytest
-
+# Testing / Coverage
 .pytest_cache/
 .coverage
 htmlcov/
 
-
 # Build / Distribution
-
 build/
 dist/
 *.egg-info/
 
-
 # Terraform
-
 .terraform/
 *.tfstate
 *.tfstate.*
@@ -64,46 +46,42 @@ crash.log
 terraform.tfvars
 terraform.tfvars.json
 
-
 # AWS Credentials
-
 .aws/
-
+credentials
+config
 
 # Kubernetes
-
 *.kubeconfig
 
-
 # Docker
-
 *.tar
-
+docker-compose.override.yml
 
 # Temporary Files
-
 temp/
 tmp/
 
-
 # Data Files
-# Keep raw data local if dataset is proprietary
-
 data/raw/
 data/processed/
 
-
-# Experimental Models
-
+# Model Experiments
 models/temp/
+models/experiments/
 
+# Reports / Generated Outputs
+reports/
+outputs/
+artifacts/
 
-# MLflow (if added later)
-
+# MLflow
 mlruns/
 
+# Tooling Cache
+.mypy_cache/
+.ruff_cache/
 
 # Mac/Linux Swap Files
-
 *.swp
 *.swo
