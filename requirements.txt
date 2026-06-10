@@ -1,4 +1,4 @@
-numpy==2.3.1
+numpy==1.26.4
 pandas==2.3.1
 scipy==1.16.0
 
@@ -8,9 +8,7 @@ seaborn==0.13.2
 scikit-learn==1.7.0
 imbalanced-learn==0.14.0
 joblib==1.5.1
-statsmodels==0.14.5
 
 flask==3.1.1
 gunicorn==23.0.0
-
 boto3==1.39.4
