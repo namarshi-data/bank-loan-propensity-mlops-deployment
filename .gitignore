@@ -62,10 +62,6 @@ docker-compose.override.yml
 temp/
 tmp/
 
-# Data Files
-data/raw/
-data/processed/
-
 # Model Experiments
 models/temp/
 models/experiments/
